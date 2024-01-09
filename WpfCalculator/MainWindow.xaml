@@ -47,21 +47,23 @@
         </Grid.ColumnDefinitions>
 
         <!-- First Row: Display Label -->
-        <Label Content="0" FontSize="24" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
+        <Label Name="ResultLabel" Content="0" FontSize="24" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Height="50"/>
-        <!-- First row of numbers-->
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button7" Content="7" FontSize="18" Grid.Row="3" Grid.Column="0"/>
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button8" Content="8" FontSize="18" Grid.Row="3" Grid.Column="1"/>
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button9" Content="9" FontSize="18" Grid.Row="3" Grid.Column="2"/>
+        <!--First row of UtilityButtons-->
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Backspace" Content="&lt;--" FontSize="18" Grid.Row="1" Grid.Column="3" Click="UtilityClick"/>
+        <!-- First row of Numbers-->
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button7" Content="7" FontSize="18" Grid.Row="3" Grid.Column="0" Click="NumpadClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button8" Content="8" FontSize="18" Grid.Row="3" Grid.Column="1" Click="NumpadClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button9" Content="9" FontSize="18" Grid.Row="3" Grid.Column="2" Click="NumpadClick"/>
         <!-- Second Row -->
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button4" Content="4" FontSize="18" Grid.Row="4" Grid.Column="0"/>
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button5" Content="5" FontSize="18" Grid.Row="4" Grid.Column="1"/>
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button6" Content="6" FontSize="18" Grid.Row="4" Grid.Column="2"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button4" Content="4" FontSize="18" Grid.Row="4" Grid.Column="0" Click="NumpadClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button5" Content="5" FontSize="18" Grid.Row="4" Grid.Column="1" Click="NumpadClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button6" Content="6" FontSize="18" Grid.Row="4" Grid.Column="2" Click="NumpadClick"/>
 
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button1" Content="1" FontSize="18" Grid.Row="5" Grid.Column="0"/>
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button2" Content="2" FontSize="18" Grid.Row="5" Grid.Column="1"/>
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button3" Content="3" FontSize="18" Grid.Row="5" Grid.Column="2"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button1" Content="1" FontSize="18" Grid.Row="5" Grid.Column="0" Click="NumpadClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button2" Content="2" FontSize="18" Grid.Row="5" Grid.Column="1" Click="NumpadClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button3" Content="3" FontSize="18" Grid.Row="5" Grid.Column="2" Click="NumpadClick"/>
 
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button0" Content="0" FontSize="18" Grid.Row="6" Grid.Column="1"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button0" Content="0" FontSize="18" Grid.Row="6" Grid.Column="1" Click="NumpadClick"/>
     </Grid>
 </Window>
