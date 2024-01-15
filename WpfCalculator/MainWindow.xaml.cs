@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,7 +19,12 @@ namespace WpfCalculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string Value { get; set; } = "0";
+        private string Value1 { get; set; } = "0";
+        private string Value2 { get; set; } = "0";
+        private Boolean OperationChosen { get; set; } = false;
+        private string ChosenOperation { get; set; } = string.Empty;
+        private Boolean CleanOnType { get; set; } = false;
+        private Boolean CEonType { get; set; } = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -26,14 +32,19 @@ namespace WpfCalculator
         private void NumpadClick(object sender, RoutedEventArgs e)
         {
             string ButtonNumber = ((Button)sender).Content.ToString();
-
-            Value += ButtonNumber;
-            if (Value[0] == '0' && (Value.Length > 1))
+            if (CleanOnType)
             {
-               Value = Value.TrimStart('0');
-                Debug.WriteLine(Value);
+                Value1 = "0";
+                CleanOnType = false;
             }
-            ResultLabel.Content = Value;
+            Value1 += ButtonNumber;
+            if (Value1[0] == '0' && (Value1.Length > 1))
+            {
+               Value1 = Value1.TrimStart('0');
+                Debug.WriteLine(Value1);
+            }
+            ChosenOperation = string.Empty;
+            ResultLabel.Content = Value1;
 
 
         }
@@ -42,13 +53,91 @@ namespace WpfCalculator
             Button button = (Button)sender;
             if (button.Name == "Backspace")
             {
-                Value = Value.Remove(Value.Length - 1);
+                Value1 = Value1.Remove(Value1.Length - 1);
             }
-            if(Value.Length == 0)
+            if(Value1.Length == 0)
             {
-                Value = "0";
+                Value1 = "0";
             }
-            ResultLabel.Content = Value;
+            else
+            {
+                switch (button.Name)
+                {
+                    case "Plus":
+                        if(ChosenOperation == "Plus")
+                        {
+                            Value2 = (double.Parse(Value2) + double.Parse(Value1)).ToString();
+                            Value1 = Value2;
+                        }
+                        ChosenOperation = "Plus";
+                        CleanOnType = true;
+                        break;
+                    case "Minus":
+                        ChosenOperation = "Minus";
+                        Value1 = (double.Parse(Value2) - double.Parse(Value1)).ToString();
+                        Value2 = Value1;
+                        CleanOnType = true;
+                        break;
+                    case "Invert":
+                        if (Value1 != "0")
+                        {
+                            Value1 = ((double)1 / int.Parse(Value1)).ToString();
+                            Value2 = Value1;
+                        }
+                        break;
+                    case "Square":
+                        Value1 = (double.Parse(Value1)* double.Parse(Value1)).ToString();
+                        Value2 = Value1;
+                        break;
+                    case "Root":
+                        Value1 = (Math.Sqrt(double.Parse(Value1))).ToString();
+                        Value2 = Value1;
+                        break;
+                    case "Point":
+                        Boolean Found = false;
+                        for(int i = 0; i < Value1.Length; i++)
+                        {
+                            if (Value1[i] == ',')
+                            {
+                                Found = true;
+                            }
+                        }
+                        if (!Found)
+                        {
+                            Value1 += ",";
+                        }
+                       
+                        break;
+                    case "Negate":
+                        Value1 = (double.Parse(Value1) * -1).ToString();
+                        break;
+                    case "CE":
+                        Value1="0";
+                        break;
+                    case "C":
+                        Value1 = "0";
+                        Value2 = "0";
+                        ChosenOperation = string.Empty;
+                        OperationChosen = false;
+                        break;
+                    default:
+                        // code block
+                        break;
+                }
+            }
+
+            //Debug.WriteLine(Value1);
+            if (CleanOnType) {
+                ResultLabel.Content = Value2;
+            }
+            else
+            {
+                ResultLabel.Content = Value1;
+            }
+            
+            
+
+
         }   
     }
 

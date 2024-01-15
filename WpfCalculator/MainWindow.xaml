@@ -50,7 +50,22 @@
         <Label Name="ResultLabel" Content="0" FontSize="24" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" 
                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Height="50"/>
         <!--First row of UtilityButtons-->
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Percent" Content="%" FontSize="18" Grid.Row="1" Grid.Column="0" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="CE" Content="CE" FontSize="18" Grid.Row="1" Grid.Column="1" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="C" Content="C" FontSize="18" Grid.Row="1" Grid.Column="2" Click="UtilityClick"/>
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Backspace" Content="&lt;--" FontSize="18" Grid.Row="1" Grid.Column="3" Click="UtilityClick"/>
+        <!-- Second row of UtilityButtons-->
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Invert" Content="1/x" FontSize="18" Grid.Row="2" Grid.Column="0" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Square" Content="x2" FontSize="18" Grid.Row="2" Grid.Column="1" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Root" Content="SqrRoot" FontSize="18" Grid.Row="2" Grid.Column="2" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Division" Content="/" FontSize="18" Grid.Row="2" Grid.Column="3" Click="UtilityClick"/>
+        <!-- Side and bottom UtilityButtons-->
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Times" Content="X" FontSize="18" Grid.Row="3" Grid.Column="3" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Minus" Content="-" FontSize="18" Grid.Row="4" Grid.Column="3" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Plus" Content="+" FontSize="18" Grid.Row="5" Grid.Column="3" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Equals" Content="=" FontSize="18" Grid.Row="6" Grid.Column="3" Click="UtilityClick" Background="DarkBlue" Foreground="White"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Point" Content="," FontSize="18" Grid.Row="6" Grid.Column="2" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Negate" Content="+/-" FontSize="18" Grid.Row="6" Grid.Column="0" Click="UtilityClick"/>
         <!-- First row of Numbers-->
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button7" Content="7" FontSize="18" Grid.Row="3" Grid.Column="0" Click="NumpadClick"/>
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Button8" Content="8" FontSize="18" Grid.Row="3" Grid.Column="1" Click="NumpadClick"/>
