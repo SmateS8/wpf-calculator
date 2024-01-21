@@ -1,16 +1,6 @@
 ﻿using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfCalculator
 {
@@ -34,7 +24,7 @@ namespace WpfCalculator
         }
         private void Calculate(string ValueString)
         {
-            double Value = double.Parse(ValueString);   
+            double Value = double.Parse(ValueString);
             switch (ChosenOperation)
             {
                 case "Plus":
@@ -49,7 +39,7 @@ namespace WpfCalculator
                 case "Division":
                     Value2 = (double.Parse(Value2) / Value).ToString();
                     break;
-            }       
+            }
         }
         private void DoClean()
         {
@@ -79,7 +69,7 @@ namespace WpfCalculator
             }
             Value1 += ButtonNumber;
             Boolean isDecimal = false;
-            for(int i = 0; i < Value1.Length; i++)
+            for (int i = 0; i < Value1.Length; i++)
             {
                 if (Value1[i] == ',')
                 {
@@ -87,7 +77,8 @@ namespace WpfCalculator
                     break;
                 }
             }
-            if (!isDecimal) {
+            if (!isDecimal)
+            {
 
                 if (Value1[0] == '0' && (Value1.Length > 1))
                 {
@@ -109,13 +100,13 @@ namespace WpfCalculator
             {
                 Value1 = Value1.Remove(Value1.Length - 1);
             }
-            if(Value1.Length == 0)
+            if (Value1.Length == 0)
             {
                 Value1 = "0";
             }
             else
             {
-                if(button.Name != "Equals")
+                if (button.Name != "Equals" && button.Name != "Point")
                 {
                     ConType = false;
                 }
@@ -129,7 +120,8 @@ namespace WpfCalculator
                             CleanOnType = true;
                             break;
                         }
-                        if((CleanOnType && !ChangedByUtility)) {
+                        if ((CleanOnType && !ChangedByUtility))
+                        {
                             ChosenOperation = "Plus";
                             break;
                         }
@@ -149,7 +141,7 @@ namespace WpfCalculator
                             ChosenOperation = "Plus";
                         }
                         Pushed = true;
-                            
+
                         break;
                     case "Minus":
                         if (Totalled)
@@ -255,7 +247,7 @@ namespace WpfCalculator
                         CleanOnType = true;
                         break;
                     case "Square":
-                        Value1 = (double.Parse(Value1)* double.Parse(Value1)).ToString();
+                        Value1 = (double.Parse(Value1) * double.Parse(Value1)).ToString();
                         if (Totalled)
                         {
                             Value1BeforeEquals = Value1;
@@ -275,8 +267,14 @@ namespace WpfCalculator
                         CleanOnType = true;
                         break;
                     case "Point":
+                        if (ConType)
+                        {
+                            DoClean();
+                            Value1 = "0,";
+                            break;
+                        }
                         Boolean Found = false;
-                        for(int i = 0; i < Value1.Length; i++)
+                        for (int i = 0; i < Value1.Length; i++)
                         {
                             if (Value1[i] == ',')
                             {
@@ -287,20 +285,37 @@ namespace WpfCalculator
                         {
                             Value1 += ",";
                         }
-                       
+
                         break;
                     case "Negate":
                         Value1 = (double.Parse(Value1) * -1).ToString();
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            Value2 = Value1;
+                        }
+                        ChangedByUtility = true;
+                        CleanOnType = true;
+                        break;
+                    case "Percent":
+                        Value1 = (double.Parse(Value2) / 100 * double.Parse(Value1)).ToString();
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            Value2 = Value1;
+                        }
+                        ChangedByUtility = true;
+                        CleanOnType = true;
                         break;
                     case "CE":
-                        Value1="0";
+                        Value1 = "0";
                         CleanOnType = false;
                         break;
                     case "C":
                         DoClean();
                         break;
                     case "Equals":
-                           if (!Pushed)
+                        if (!Pushed)
                         {
                             break;
                         }
@@ -319,11 +334,11 @@ namespace WpfCalculator
 
             //Debug.WriteLine(Value1);
             ResultLabel.Content = Value1;
-            
-            
 
 
-        }   
+
+
+        }
     }
 
 }
