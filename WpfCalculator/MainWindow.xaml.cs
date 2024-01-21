@@ -43,7 +43,13 @@ namespace WpfCalculator
                 case "Minus":
                     Value2 = (double.Parse(Value2) - Value).ToString();
                     break;
-            }
+                case "Multiplication":
+                    Value2 = (double.Parse(Value2) * Value).ToString();
+                    break;
+                case "Division":
+                    Value2 = (double.Parse(Value2) / Value).ToString();
+                    break;
+            }       
         }
         private void DoClean()
         {
@@ -171,6 +177,66 @@ namespace WpfCalculator
                             Value1 = Value2;
                             CleanOnType = true;
                             ChosenOperation = "Minus";
+                        }
+                        Pushed = true;
+
+                        break;
+                    case "Multiplication":
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            ChosenOperation = "Multiplication";
+                            CleanOnType = true;
+                            break;
+                        }
+                        if (CleanOnType && !ChangedByUtility)
+                        {
+                            ChosenOperation = "Multiplication";
+                            break;
+                        }
+                        ChangedByUtility = false;
+                        if (!Pushed)
+                        {
+                            Value2 = Value1;
+                            CleanOnType = true;
+                            ChosenOperation = "Multiplication";
+                        }
+                        else
+                        {
+                            Calculate(Value1);
+                            Value1 = Value2;
+                            CleanOnType = true;
+                            ChosenOperation = "Multiplication";
+                        }
+                        Pushed = true;
+
+                        break;
+                    case "Division":
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            ChosenOperation = "Division";
+                            CleanOnType = true;
+                            break;
+                        }
+                        if (CleanOnType && !ChangedByUtility)
+                        {
+                            ChosenOperation = "Division";
+                            break;
+                        }
+                        ChangedByUtility = false;
+                        if (!Pushed)
+                        {
+                            Value2 = Value1;
+                            CleanOnType = true;
+                            ChosenOperation = "Division";
+                        }
+                        else
+                        {
+                            Calculate(Value1);
+                            Value1 = Value2;
+                            CleanOnType = true;
+                            ChosenOperation = "Division";
                         }
                         Pushed = true;
 

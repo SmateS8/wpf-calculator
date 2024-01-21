@@ -60,7 +60,7 @@
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Root" Content="SqrRoot" FontSize="18" Grid.Row="2" Grid.Column="2" Click="UtilityClick"/>
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Division" Content="/" FontSize="18" Grid.Row="2" Grid.Column="3" Click="UtilityClick"/>
         <!-- Side and bottom UtilityButtons-->
-        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Times" Content="X" FontSize="18" Grid.Row="3" Grid.Column="3" Click="UtilityClick"/>
+        <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Multiplication" Content="X" FontSize="18" Grid.Row="3" Grid.Column="3" Click="UtilityClick"/>
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Minus" Content="-" FontSize="18" Grid.Row="4" Grid.Column="3" Click="UtilityClick"/>
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Plus" Content="+" FontSize="18" Grid.Row="5" Grid.Column="3" Click="UtilityClick"/>
         <Button Style="{StaticResource CalculatorButtonStyle}" x:Name="Equals" Content="=" FontSize="18" Grid.Row="6" Grid.Column="3" Click="UtilityClick" Background="DarkBlue" Foreground="White"/>
