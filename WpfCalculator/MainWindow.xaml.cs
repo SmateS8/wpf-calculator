@@ -21,29 +21,77 @@ namespace WpfCalculator
     {
         private string Value1 { get; set; } = "0";
         private string Value2 { get; set; } = "0";
-        private Boolean OperationChosen { get; set; } = false;
+        private Boolean Pushed { get; set; } = false;
+        private Boolean Totalled { get; set; } = false;
         private string ChosenOperation { get; set; } = string.Empty;
         private Boolean CleanOnType { get; set; } = false;
-        private Boolean CEonType { get; set; } = false;
+        private Boolean ChangedByUtility { get; set; } = false;
+        private Boolean ConType { get; set; } = false;
+        private string Value1BeforeEquals { get; set; } = "0";
         public MainWindow()
         {
             InitializeComponent();
         }
+        private void Calculate(string ValueString)
+        {
+            double Value = double.Parse(ValueString);   
+            switch (ChosenOperation)
+            {
+                case "Plus":
+                    Value2 = (double.Parse(Value2) + Value).ToString();
+                    break;
+                case "Minus":
+                    Value2 = (double.Parse(Value2) - Value).ToString();
+                    break;
+            }
+        }
+        private void DoClean()
+        {
+            Debug.WriteLine("C");
+            Value1 = "0";
+            Value2 = "0";
+            Pushed = false;
+            Totalled = false;
+            ChosenOperation = string.Empty;
+            CleanOnType = false;
+            ChangedByUtility = false;
+            ConType = false;
+            Value1BeforeEquals = "0";
+        }
         private void NumpadClick(object sender, RoutedEventArgs e)
         {
-            string ButtonNumber = ((Button)sender).Content.ToString();
+            string? ButtonNumber = ((Button)sender).Content.ToString();
+            Totalled = false;
+            if (ConType)
+            {
+                DoClean();
+            }
             if (CleanOnType)
             {
                 Value1 = "0";
                 CleanOnType = false;
             }
             Value1 += ButtonNumber;
-            if (Value1[0] == '0' && (Value1.Length > 1))
+            Boolean isDecimal = false;
+            for(int i = 0; i < Value1.Length; i++)
             {
-               Value1 = Value1.TrimStart('0');
-                Debug.WriteLine(Value1);
+                if (Value1[i] == ',')
+                {
+                    isDecimal = true;
+                    break;
+                }
             }
-            ChosenOperation = string.Empty;
+            if (!isDecimal) {
+
+                if (Value1[0] == '0' && (Value1.Length > 1))
+                {
+                    Value1 = Value1.TrimStart('0');
+                }
+                if (Value1 == "")
+                {
+                    Value1 = "0";
+                }
+            }
             ResultLabel.Content = Value1;
 
 
@@ -51,7 +99,7 @@ namespace WpfCalculator
         private void UtilityClick(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            if (button.Name == "Backspace")
+            if (button.Name == "Backspace" && !CleanOnType)
             {
                 Value1 = Value1.Remove(Value1.Length - 1);
             }
@@ -61,37 +109,104 @@ namespace WpfCalculator
             }
             else
             {
+                if(button.Name != "Equals")
+                {
+                    ConType = false;
+                }
                 switch (button.Name)
                 {
                     case "Plus":
-                        if(ChosenOperation == "Plus")
+                        if (Totalled)
                         {
-                            Value2 = (double.Parse(Value2) + double.Parse(Value1)).ToString();
-                            Value1 = Value2;
+                            Value1BeforeEquals = Value1;
+                            ChosenOperation = "Plus";
+                            CleanOnType = true;
+                            break;
                         }
-                        ChosenOperation = "Plus";
-                        CleanOnType = true;
+                        if((CleanOnType && !ChangedByUtility)) {
+                            ChosenOperation = "Plus";
+                            break;
+                        }
+                        Totalled = false;
+                        ChangedByUtility = false;
+                        if (!Pushed)
+                        {
+                            Value2 = Value1;
+                            CleanOnType = true;
+                            ChosenOperation = "Plus";
+                        }
+                        else
+                        {
+                            Calculate(Value1);
+                            Value1 = Value2;
+                            CleanOnType = true;
+                            ChosenOperation = "Plus";
+                        }
+                        Pushed = true;
+                            
                         break;
                     case "Minus":
-                        ChosenOperation = "Minus";
-                        Value1 = (double.Parse(Value2) - double.Parse(Value1)).ToString();
-                        Value2 = Value1;
-                        CleanOnType = true;
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            ChosenOperation = "Minus";
+                            CleanOnType = true;
+                            break;
+                        }
+                        if (CleanOnType && !ChangedByUtility)
+                        {
+                            ChosenOperation = "Minus";
+                            break;
+                        }
+                        ChangedByUtility = false;
+                        if (!Pushed)
+                        {
+                            Value2 = Value1;
+                            CleanOnType = true;
+                            ChosenOperation = "Minus";
+                        }
+                        else
+                        {
+                            Calculate(Value1);
+                            Value1 = Value2;
+                            CleanOnType = true;
+                            ChosenOperation = "Minus";
+                        }
+                        Pushed = true;
+
                         break;
                     case "Invert":
                         if (Value1 != "0")
                         {
                             Value1 = ((double)1 / int.Parse(Value1)).ToString();
+                        }
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
                             Value2 = Value1;
                         }
+                        ChangedByUtility = true;
+                        CleanOnType = true;
                         break;
                     case "Square":
                         Value1 = (double.Parse(Value1)* double.Parse(Value1)).ToString();
-                        Value2 = Value1;
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            Value2 = Value1;
+                        }
+                        ChangedByUtility = true;
+                        CleanOnType = true;
                         break;
                     case "Root":
-                        Value1 = (Math.Sqrt(double.Parse(Value1))).ToString();
-                        Value2 = Value1;
+                        Value1 = Math.Sqrt(double.Parse(Value1)).ToString();
+                        if (Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                            Value2 = Value1;
+                        }
+                        ChangedByUtility = true;
+                        CleanOnType = true;
                         break;
                     case "Point":
                         Boolean Found = false;
@@ -113,27 +228,31 @@ namespace WpfCalculator
                         break;
                     case "CE":
                         Value1="0";
+                        CleanOnType = false;
                         break;
                     case "C":
-                        Value1 = "0";
-                        Value2 = "0";
-                        ChosenOperation = string.Empty;
-                        OperationChosen = false;
+                        DoClean();
                         break;
-                    default:
-                        // code block
+                    case "Equals":
+                           if (!Pushed)
+                        {
+                            break;
+                        }
+                        if (!Totalled)
+                        {
+                            Value1BeforeEquals = Value1;
+                        }
+                        Totalled = true;
+                        Calculate(Value1BeforeEquals);
+                        Value1 = Value2;
+                        ConType = true;
+
                         break;
                 }
             }
 
             //Debug.WriteLine(Value1);
-            if (CleanOnType) {
-                ResultLabel.Content = Value2;
-            }
-            else
-            {
-                ResultLabel.Content = Value1;
-            }
+            ResultLabel.Content = Value1;
             
             
 
