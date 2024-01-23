@@ -298,7 +298,16 @@ namespace WpfCalculator
                         CleanOnType = true;
                         break;
                     case "Percent":
-                        Value1 = (double.Parse(Value2) / 100 * double.Parse(Value1)).ToString();
+                        Debug.WriteLine(ChosenOperation);
+                        if(ChosenOperation == "Multiplication" || ChosenOperation == "Division")
+                        {
+                            Value1 = (double.Parse(Value1) / 100).ToString();
+                        }
+                        else
+                        {
+                            Value1 = (double.Parse(Value2) / 100 * double.Parse(Value1)).ToString();
+                        }
+                        
                         if (Totalled)
                         {
                             Value1BeforeEquals = Value1;
